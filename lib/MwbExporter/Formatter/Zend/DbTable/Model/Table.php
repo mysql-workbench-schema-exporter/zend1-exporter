@@ -47,11 +47,18 @@ class Table extends Base
      */
     public function __construct($data, $parent)
     {
-        $config = Registry::get('config');
-        $this->tablePrefix = $config['tablePrefix'];
-        $this->parentTable = $config['parentTable'];
-
         parent::__construct($data, $parent);
+        $config = Registry::get('config');
+        $this->tablePrefix = str_replace(
+            array('%schema%', '%table%', '%entity%'),
+            array($this->getSchemaName(), $this->getRawTableName(), $this->getModelName()),
+            $config['tablePrefix']
+        );
+        $this->parentTable = str_replace(
+            array('%schema%', '%table%', '%entity%'),
+            array($this->getSchemaName(), $this->getRawTableName(), $this->getModelName()),
+            $config['parentTable']
+        );
     }
 
     /**
