@@ -27,11 +27,19 @@
 	],
 	"require" : {
 		"php" : ">=5.4.0",
-		"mysql-workbench-schema-exporter/mysql-workbench-schema-exporter": "^3.0 || dev-master"
+		"mysql-workbench-schema-exporter/mysql-workbench-schema-exporter": "dev-master"
 	},
 	"autoload" : {
 		"psr-4" : {
-			"MwbExporter\\Formatter\\Zend\\" : "lib/MwbExporter/Formatter/Zend/"
+			"MwbExporter\\Formatter\\Zend\\" : "lib/"
+		}
+	},
+	"extra": {
+		"mysql-workbench-schema-exporter" : {
+			"formatters" : {
+				"zend-dbtable" : "MwbExporter\\Formatter\\Zend\\DbTable\\Formatter",
+				"zend-restcontroller" : "MwbExporter\\Formatter\\Zend\\RestController\\Formatter"
+			}
 		}
 	}
 }
