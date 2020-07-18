@@ -27,13 +27,11 @@
 
 namespace MwbExporter\Formatter\Zend\DbTable;
 
-use MwbExporter\Formatter\Formatter as BaseFormatter;
+use MwbExporter\Formatter\Zend\Formatter as BaseFormatter;
 use MwbExporter\Model\Base;
 
 class Formatter extends BaseFormatter
 {
-    const CFG_TABLE_PREFIX           = 'tablePrefix';
-    const CFG_PARENT_TABLE           = 'parentTable';
     const CFG_GENERATE_DRI           = 'generateDRI';
     const CFG_GENERATE_GETTER_SETTER = 'generateGetterSetter';
 

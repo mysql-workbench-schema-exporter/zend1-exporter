@@ -25,49 +25,17 @@
  * THE SOFTWARE.
  */
 
-namespace MwbExporter\Formatter\Zend\RestController;
+namespace MwbExporter\Formatter\Zend;
 
-use MwbExporter\Formatter\Zend\Formatter as BaseFormatter;
-use MwbExporter\Model\Base;
+use MwbExporter\Formatter\Formatter as BaseFormatter;
 
-class Formatter extends BaseFormatter
+abstract class Formatter extends BaseFormatter
 {
-    protected function init()
-    {
-        parent::init();
-        $this->addConfigurations(array(
-            static::CFG_INDENTATION     => 4,
-            static::CFG_FILENAME        => '%entity%.%extension%',
-            static::CFG_TABLE_PREFIX    => '',
-            static::CFG_PARENT_TABLE    => 'Zend_Rest_Controller',
-        ));
-    }
+    const CFG_TABLE_PREFIX   = 'tablePrefix';
+    const CFG_PARENT_TABLE   = 'parentTable';
 
-    /**
-     * (non-PHPdoc)
-     * @see \MwbExporter\Formatter\Formatter::createDatatypeConverter()
-     */
-    protected function createDatatypeConverter()
+    public function getVersion()
     {
-        return new DatatypeConverter();
-    }
-
-    /**
-     * (non-PHPdoc)
-     * @see \MwbExporter\Formatter\Formatter::createTable()
-     */
-    public function createTable(Base $parent, $node)
-    {
-        return new Model\Table($parent, $node);
-    }
-
-    public function getTitle()
-    {
-        return 'Zend Rest Controller';
-    }
-
-    public function getFileExtension()
-    {
-        return 'php';
+        return 'dev';
     }
 }
