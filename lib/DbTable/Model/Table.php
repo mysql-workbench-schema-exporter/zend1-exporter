@@ -107,7 +107,7 @@ class Table extends BaseTable
             ->write(' *')
             ->write(' * @var array')
             ->write(' */')
-            ->write('protected $_dependentTables = array();')
+            ->write('protected $_dependentTables = [];')
             ->write('')
         ;
 
@@ -130,7 +130,7 @@ class Table extends BaseTable
                     $writer->outdent();
                     $writer->write(');');
                 } else {
-                    $writer->write('protected $_referenceMap = array();');
+                    $writer->write('protected $_referenceMap = [];');
                 }
             })
         ;
