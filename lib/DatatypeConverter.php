@@ -33,7 +33,7 @@ class DatatypeConverter extends BaseDatatypeConverter
 {
     public function setup()
     {
-        $this->register(array(
+        $this->register([
             static::DATATYPE_TINYINT            => 'tinyint',
             static::DATATYPE_SMALLINT           => 'smallint',
             static::DATATYPE_MEDIUMINT          => 'mediumint',
@@ -93,6 +93,6 @@ class DatatypeConverter extends BaseDatatypeConverter
             static::USERDATATYPE_NUMERIC        => 'decimal',
             static::USERDATATYPE_DEC            => 'decimal',
             static::USERDATATYPE_CHARACTER      => 'char',
-        ));
+        ]);
     }
 }

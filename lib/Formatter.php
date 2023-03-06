@@ -36,6 +36,6 @@ abstract class Formatter extends BaseFormatter
 
     public function getVersion()
     {
-        return '3.1.1';
+        return '3.2.0';
     }
 }
