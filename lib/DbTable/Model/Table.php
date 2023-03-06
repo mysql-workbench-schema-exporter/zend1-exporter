@@ -122,13 +122,13 @@ class Table extends BaseTable
             ->write(' */')
             ->writeCallback(function(WriterInterface $writer, Table $_this = null) {
                 if (count($_this->getForeignKeys())) {
-                    $writer->write('protected $_referenceMap = array(');
+                    $writer->write('protected $_referenceMap = [');
                     $writer->indent();
                     foreach ($_this->getForeignKeys() as $foreignKey) {
                         $foreignKey->write($writer);
                     }
                     $writer->outdent();
-                    $writer->write(');');
+                    $writer->write('];');
                 } else {
                     $writer->write('protected $_referenceMap = [];');
                 }

@@ -35,13 +35,13 @@ class ForeignKey extends BaseForeignKey
     public function write(WriterInterface $writer)
     {
         $writer
-            ->write('\''. $this->getReferencedTable()->getRawTableName() .'\' => array(')
+            ->write('\''. $this->getReferencedTable()->getRawTableName() .'\' => [')
             ->indent()
                 ->write('\'columns\'       => \''. $this->getLocal()->getColumnName() .'\',')
                 ->write('\'refTableClass\' => \''. $this->getReferencedTable()->getRawTableName() .'\',')
                 ->write('\'refColumns\'    => \''. $this->getForeign()->getColumnName() .'\',')
             ->outdent()
-            ->write('),')
+            ->write('],')
         ;
 
         return $this;

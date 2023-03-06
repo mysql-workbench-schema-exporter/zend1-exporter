@@ -38,7 +38,7 @@ class Formatter extends BaseFormatter
     protected function init()
     {
         parent::init();
-        $this->addConfigurations(array(
+        $this->addConfigurations([
             static::CFG_INDENTATION             => 4,
             static::CFG_FILENAME                => 'DbTable/%schema%/%entity%.%extension%',
             static::CFG_TABLE_PREFIX            => 'Application_Model_DbTable_',
@@ -50,7 +50,7 @@ class Formatter extends BaseFormatter
             // http://framework.zend.com/manual/en/zend.db.table.relationships.html#zend.db.table.relationships.cascading
             static::CFG_GENERATE_DRI            => false,
             static::CFG_GENERATE_GETTER_SETTER  => false,
-        ));
+        ]);
     }
 
     /**

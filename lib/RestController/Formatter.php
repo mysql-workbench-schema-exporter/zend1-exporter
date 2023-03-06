@@ -35,12 +35,12 @@ class Formatter extends BaseFormatter
     protected function init()
     {
         parent::init();
-        $this->addConfigurations(array(
+        $this->addConfigurations([
             static::CFG_INDENTATION     => 4,
             static::CFG_FILENAME        => '%entity%.%extension%',
             static::CFG_TABLE_PREFIX    => '',
             static::CFG_PARENT_TABLE    => 'Zend_Rest_Controller',
-        ));
+        ]);
     }
 
     /**
