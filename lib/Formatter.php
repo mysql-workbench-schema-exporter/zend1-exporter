@@ -46,4 +46,19 @@ abstract class Formatter extends BaseFormatter
     {
         return 'dev';
     }
+
+    public static function getDocDir()
+    {
+        return __DIR__.'/../docs';
+    }
+
+    /**
+     * Get configuration scope.
+     *
+     * @return string
+     */
+    public static function getScope()
+    {
+        return 'Zend Global';
+    }
 }

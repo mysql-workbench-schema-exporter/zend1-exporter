@@ -15,58 +15,17 @@ This is an exporter to convert [MySQL Workbench](http://www.mysql.com/products/w
 ## Installation
 
 ```
-php composer.phar require --dev mysql-workbench-schema-exporter/zend1-exporter
+composer require --dev mysql-workbench-schema-exporter/zend1-exporter
 ```
 
 This will install the exporter and also require [mysql-workbench-schema-exporter](https://github.com/mysql-workbench-schema-exporter/mysql-workbench-schema-exporter).
 
 You then can invoke the CLI script using `vendor/bin/mysql-workbench-schema-export`.
 
-## Formatter Setup Options
+## Configuration
 
-Additionally to the [common options](https://github.com/mysql-workbench-schema-exporter/mysql-workbench-schema-exporter#configuring-mysql-workbench-schema-exporter) of mysql-workbench-schema-exporter these options are supported:
-
-### Zend DbTable
-
-#### Setup Options
-
-  * `tablePrefix`
-
-    Table prefix for generated class.
-
-    Default is `Application_Model_DbTable_`.
-
-  * `parentTable`
-
-    Ancestor class, the class to extend for generated class.
-
-    Default is `Zend_Db_Table_Abstract`.
-
-  * `generateDRI`
-
-    Generate `dependentTables` map.
-
-    Default is `false`.
-
-  * `generateGetterSetter`
-
-    Not implemented yet.
-
-### Zend Rest Controller
-
-#### Setup Options
-
-  * `tablePrefix`
-
-    See above.
-
-    Default is `empty`.
-
-  * `parentTable`
-
-    See above.
-
-    Default is `Zend_Rest_Controller`.
+  * [Zend DbTable](/docs/zend-dbtable.md)
+  * [Zend Rest Controller](/docs/zend-restcontroller.md)
 
 ## Command Line Interface (CLI)
 

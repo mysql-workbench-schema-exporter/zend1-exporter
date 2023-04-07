@@ -43,7 +43,7 @@ class Formatter extends BaseFormatter
                 IndentationConfiguration::class => 4,
                 TablePrefixConfiguration::class => '',
                 TableParentConfiguration::class => 'Zend_Rest_Controller',
-            ])
+            ], true)
         ;
     }
 
@@ -73,5 +73,15 @@ class Formatter extends BaseFormatter
     public function getFileExtension()
     {
         return 'php';
+    }
+
+    /**
+     * Get configuration scope.
+     *
+     * @return string
+     */
+    public static function getScope()
+    {
+        return 'Zend Rest Controller';
     }
 }

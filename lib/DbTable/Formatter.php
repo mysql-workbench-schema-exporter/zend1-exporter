@@ -51,7 +51,7 @@ class Formatter extends BaseFormatter
                 // If you want to use your personnal Zend_Db_Table_Abstract,
                 // you need to specifie here his name
                 TableParentConfiguration::class => 'Zend_Db_Table_Abstract',
-            ])
+            ], true)
         ;
     }
 
@@ -90,5 +90,15 @@ class Formatter extends BaseFormatter
     public function getFileExtension()
     {
         return 'php';
+    }
+
+    /**
+     * Get configuration scope.
+     *
+     * @return string
+     */
+    public static function getScope()
+    {
+        return 'Zend DbTable';
     }
 }
