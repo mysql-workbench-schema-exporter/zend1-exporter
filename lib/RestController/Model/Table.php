@@ -4,7 +4,7 @@
  * The MIT License
  *
  * Copyright (c) 2012 Allan Sun <sunajia@gmail.com>
- * Copyright (c) 2012-2014 Toha <tohenk@yahoo.com>
+ * Copyright (c) 2012-2023 Toha <tohenk@yahoo.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,21 +27,24 @@
 
 namespace MwbExporter\Formatter\Zend\RestController\Model;
 
-use MwbExporter\Model\Table as BaseTable;
+use MwbExporter\Configuration\Comment as CommentConfiguration;
+use MwbExporter\Formatter\Zend\Configuration\TableParent as TableParentConfiguration;
+use MwbExporter\Formatter\Zend\Configuration\TablePrefix as TablePrefixConfiguration;
 use MwbExporter\Formatter\Zend\RestController\Formatter;
-use MwbExporter\Writer\WriterInterface;
 use MwbExporter\Helper\Comment;
+use MwbExporter\Model\Table as BaseTable;
+use MwbExporter\Writer\WriterInterface;
 
 class Table extends BaseTable
 {
     public function getTablePrefix()
     {
-        return $this->translateVars($this->getConfig()->get(Formatter::CFG_TABLE_PREFIX));
+        return $this->translateVars($this->getConfig(TablePrefixConfiguration::class)->getValue());
     }
 
     public function getParentTable()
     {
-        return $this->translateVars($this->getConfig()->get(Formatter::CFG_PARENT_TABLE));
+        return $this->translateVars($this->getConfig(TableParentConfiguration::class)->getValue());
     }
 
     public function writeTable(WriterInterface $writer)
@@ -52,7 +55,7 @@ class Table extends BaseTable
                 ->write('<?php')
                 ->write('')
                 ->writeCallback(function(WriterInterface $writer, Table $_this = null) {
-                    if ($_this->getConfig()->get(Formatter::CFG_ADD_COMMENT)) {
+                    if ($_this->getConfig(CommentConfiguration::class)->getValue()) {
                         $writer
                             ->write($_this->getFormatter()->getComment(Comment::FORMAT_PHP))
                             ->write('')
@@ -62,13 +65,13 @@ class Table extends BaseTable
                 ->write('class '.$this->getTablePrefix().$this->getModelName().'Controller extends '.$this->getParentTable())
                 ->write('{')
                 ->indent()
-                    ->write('')
+                ->write('')
                 ->outdent()
                 ->write('}')
                 ->write('')
                 ->close()
             ;
-    
+
             return self::WRITE_OK;
         }
 

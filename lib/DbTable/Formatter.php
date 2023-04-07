@@ -4,7 +4,7 @@
  * The MIT License
  *
  * Copyright (c) 2010 Johannes Mueller <circus2(at)web.de>
- * Copyright (c) 2012-2014 Toha <tohenk@yahoo.com>
+ * Copyright (c) 2012-2023 Toha <tohenk@yahoo.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,30 +27,32 @@
 
 namespace MwbExporter\Formatter\Zend\DbTable;
 
+use MwbExporter\Configuration\Indentation as IndentationConfiguration;
+use MwbExporter\Configuration\Filename as FilenameConfiguration;
+use MwbExporter\Formatter\Zend\Configuration\TableParent as TableParentConfiguration;
+use MwbExporter\Formatter\Zend\Configuration\TablePrefix as TablePrefixConfiguration;
+use MwbExporter\Formatter\Zend\DbTable\Configuration\DRI as DRIConfiguration;
+use MwbExporter\Formatter\Zend\DbTable\Configuration\GetterSetter as GetterSetterConfiguration;
 use MwbExporter\Formatter\Zend\Formatter as BaseFormatter;
 use MwbExporter\Model\Base;
 
 class Formatter extends BaseFormatter
 {
-    const CFG_GENERATE_DRI           = 'generateDRI';
-    const CFG_GENERATE_GETTER_SETTER = 'generateGetterSetter';
-
     protected function init()
     {
         parent::init();
-        $this->addConfigurations([
-            static::CFG_INDENTATION             => 4,
-            static::CFG_FILENAME                => 'DbTable/%schema%/%entity%.%extension%',
-            static::CFG_TABLE_PREFIX            => 'Application_Model_DbTable_',
-            // If you want to use your personnal Zend_Db_Table_Abstract,
-            // you need to specifie here his name
-            static::CFG_PARENT_TABLE            => 'Zend_Db_Table_Abstract',
-            // If true, the script will generate the $_dependentTables.
-            // Before active this option please read:
-            // http://framework.zend.com/manual/en/zend.db.table.relationships.html#zend.db.table.relationships.cascading
-            static::CFG_GENERATE_DRI            => false,
-            static::CFG_GENERATE_GETTER_SETTER  => false,
-        ]);
+        $this->getConfigurations()
+            ->add(new DRIConfiguration())
+            ->add(new GetterSetterConfiguration())
+            ->merge([
+                IndentationConfiguration::class => 4,
+                FilenameConfiguration::class => 'DbTable/%schema%/%entity%.%extension%',
+                TablePrefixConfiguration::class => 'Application_Model_DbTable_',
+                // If you want to use your personnal Zend_Db_Table_Abstract,
+                // you need to specifie here his name
+                TableParentConfiguration::class => 'Zend_Db_Table_Abstract',
+            ])
+        ;
     }
 
     /**

@@ -4,7 +4,7 @@
  * The MIT License
  *
  * Copyright (c) 2012 Allan Sun <sunajia@gmail.com>
- * Copyright (c) 2012-2014 Toha <tohenk@yahoo.com>
+ * Copyright (c) 2012-2023 Toha <tohenk@yahoo.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,9 @@
 
 namespace MwbExporter\Formatter\Zend\RestController;
 
+use MwbExporter\Configuration\Indentation as IndentationConfiguration;
+use MwbExporter\Formatter\Zend\Configuration\TableParent as TableParentConfiguration;
+use MwbExporter\Formatter\Zend\Configuration\TablePrefix as TablePrefixConfiguration;
 use MwbExporter\Formatter\Zend\Formatter as BaseFormatter;
 use MwbExporter\Model\Base;
 
@@ -35,12 +38,13 @@ class Formatter extends BaseFormatter
     protected function init()
     {
         parent::init();
-        $this->addConfigurations([
-            static::CFG_INDENTATION     => 4,
-            static::CFG_FILENAME        => '%entity%.%extension%',
-            static::CFG_TABLE_PREFIX    => '',
-            static::CFG_PARENT_TABLE    => 'Zend_Rest_Controller',
-        ]);
+        $this->getConfigurations()
+            ->merge([
+                IndentationConfiguration::class => 4,
+                TablePrefixConfiguration::class => '',
+                TableParentConfiguration::class => 'Zend_Rest_Controller',
+            ])
+        ;
     }
 
     /**

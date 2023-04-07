@@ -3,8 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2012 Allan Sun <sunajia@gmail.com>
- * Copyright (c) 2012-2023 Toha <tohenk@yahoo.com>
+ * Copyright (c) 2023 Toha <tohenk@yahoo.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,25 +24,22 @@
  * THE SOFTWARE.
  */
 
-namespace MwbExporter\Formatter\Zend;
+namespace MwbExporter\Formatter\Zend\DbTable\Configuration;
 
-use MwbExporter\Formatter\Formatter as BaseFormatter;
-use MwbExporter\Formatter\Zend\Configuration\TableParent as TableParentConfiguration;
-use MwbExporter\Formatter\Zend\Configuration\TablePrefix as TablePrefixConfiguration;
+use MwbExporter\Configuration\Configuration;
 
-abstract class Formatter extends BaseFormatter
+/**
+ * Generate getter and setter.
+ *
+ * @author Toha <tohenk@yahoo.com>
+ * @config generateGetterSetter
+ * @label Generate getter and setter
+ */
+class GetterSetter extends Configuration
 {
-    protected function init()
+    protected function initialize()
     {
-        parent::init();
-        $this->getConfigurations()
-            ->add(new TablePrefixConfiguration())
-            ->add(new TableParentConfiguration())
-        ;
-    }
-
-    public function getVersion()
-    {
-        return 'dev';
+        $this->category = 'zendConfiguration';
+        $this->defaultValue = false;
     }
 }
