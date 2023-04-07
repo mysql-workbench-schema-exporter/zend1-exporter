@@ -28,10 +28,10 @@
 namespace MwbExporter\Formatter\Zend\DbTable\Model;
 
 use MwbExporter\Configuration\Comment as CommentConfiguration;
+use MwbExporter\Configuration\Header as HeaderConfiguration;
 use MwbExporter\Formatter\Zend\Configuration\TableParent as TableParentConfiguration;
 use MwbExporter\Formatter\Zend\Configuration\TablePrefix as TablePrefixConfiguration;
 use MwbExporter\Formatter\Zend\DbTable\Configuration\DRI as DRIConfiguration;
-use MwbExporter\Formatter\Zend\DbTable\Formatter;
 use MwbExporter\Helper\Comment;
 use MwbExporter\Model\Table as BaseTable;
 use MwbExporter\Writer\WriterInterface;
@@ -62,6 +62,14 @@ class Table extends BaseTable
                 ->write('<?php')
                 ->write('')
                 ->writeCallback(function(WriterInterface $writer, Table $_this = null) {
+                    /** @var \MwbExporter\Configuration\Header $header */
+                    $header = $this->getConfig(HeaderConfiguration::class);
+                    if ($content = $header->getHeader()) {
+                        $writer
+                            ->write($_this->getFormatter()->getFormattedComment($content, Comment::FORMAT_PHP))
+                            ->write('')
+                        ;
+                    }
                     if ($_this->getConfig(CommentConfiguration::class)->getValue()) {
                         $writer
                             ->write($_this->getFormatter()->getComment(Comment::FORMAT_PHP))
