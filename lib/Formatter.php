@@ -30,6 +30,7 @@ namespace MwbExporter\Formatter\Zend;
 use MwbExporter\Formatter\Formatter as BaseFormatter;
 use MwbExporter\Formatter\Zend\Configuration\TableParent as TableParentConfiguration;
 use MwbExporter\Formatter\Zend\Configuration\TablePrefix as TablePrefixConfiguration;
+use MwbExporter\Helper\Comment;
 
 abstract class Formatter extends BaseFormatter
 {
@@ -40,6 +41,7 @@ abstract class Formatter extends BaseFormatter
             ->add(new TablePrefixConfiguration())
             ->add(new TableParentConfiguration())
         ;
+        $this->commentFormat = Comment::FORMAT_PHP;
     }
 
     public function getVersion()

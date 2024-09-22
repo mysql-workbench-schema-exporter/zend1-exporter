@@ -31,7 +31,6 @@ use MwbExporter\Configuration\Comment as CommentConfiguration;
 use MwbExporter\Configuration\Header as HeaderConfiguration;
 use MwbExporter\Formatter\Zend\Configuration\TableParent as TableParentConfiguration;
 use MwbExporter\Formatter\Zend\Configuration\TablePrefix as TablePrefixConfiguration;
-use MwbExporter\Helper\Comment;
 use MwbExporter\Model\Table as BaseTable;
 use MwbExporter\Writer\WriterInterface;
 
@@ -59,21 +58,27 @@ class Table extends BaseTable
                     $header = $this->getConfig(HeaderConfiguration::class);
                     if ($content = $header->getHeader()) {
                         $writer
-                            ->write($_this->getFormatter()->getFormattedComment($content, Comment::FORMAT_PHP, null))
+                            ->commentStart()
+                                ->write($content)
+                            ->commentEnd()
                             ->write('')
                         ;
                     }
                     if ($_this->getConfig(CommentConfiguration::class)->getValue()) {
-                        $writer
-                            ->write($_this->getFormatter()->getComment(Comment::FORMAT_PHP))
-                            ->write('')
-                        ;
+                        if ($content = $_this->getFormatter()->getComment(null)) {
+                            $writer
+                                ->commentStart()
+                                    ->write($content)
+                                ->commentEnd()
+                                ->write('')
+                            ;
+                        }
                     }
                 })
                 ->write('class '.$this->getTablePrefix().$this->getModelName().'Controller extends '.$this->getParentTable())
                 ->write('{')
                 ->indent()
-                ->write('')
+                    ->write('')
                 ->outdent()
                 ->write('}')
                 ->write('')
