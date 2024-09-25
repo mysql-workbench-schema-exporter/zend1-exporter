@@ -4,7 +4,7 @@
  * The MIT License
  *
  * Copyright (c) 2010 Johannes Mueller <circus2(at)web.de>
- * Copyright (c) 2012-2023 Toha <tohenk@yahoo.com>
+ * Copyright (c) 2012-2024 Toha <tohenk@yahoo.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,6 @@ use MwbExporter\Configuration\Header as HeaderConfiguration;
 use MwbExporter\Formatter\Zend\Configuration\TableParent as TableParentConfiguration;
 use MwbExporter\Formatter\Zend\Configuration\TablePrefix as TablePrefixConfiguration;
 use MwbExporter\Formatter\Zend\DbTable\Configuration\DRI as DRIConfiguration;
-use MwbExporter\Helper\Comment;
 use MwbExporter\Model\Table as BaseTable;
 use MwbExporter\Writer\WriterInterface;
 
@@ -66,38 +65,36 @@ class Table extends BaseTable
                     $header = $this->getConfig(HeaderConfiguration::class);
                     if ($content = $header->getHeader()) {
                         $writer
-                            ->write($_this->getFormatter()->getFormattedComment($content, Comment::FORMAT_PHP, null))
+                            ->writeComment($content)
                             ->write('')
                         ;
                     }
                     if ($_this->getConfig(CommentConfiguration::class)->getValue()) {
-                        $writer
-                            ->write($_this->getFormatter()->getComment(Comment::FORMAT_PHP))
-                            ->write('')
-                        ;
+                        if ($content = $_this->getFormatter()->getComment(null)) {
+                            $writer
+                                ->writeComment($content)
+                                ->write('')
+                            ;
+                        }
                     }
                 })
                 ->write('class '.$this->getTablePrefix().$this->getSchema()->getName().'_'. $this->getModelName().' extends '.$this->getParentTable())
                 ->write('{')
                 ->indent()
-                ->write('/**')
-                ->write(' * @var string')
-                ->write(' */')
-                ->write('protected $_schema = \''. $this->getSchema()->getName() .'\';')
-                ->write('')
-                ->write('/**')
-                ->write(' * @var string')
-                ->write(' */')
-                ->write('protected $_name = \''. $this->getRawTableName() .'\';')
-                ->write('')
-                ->writeCallback(function(WriterInterface $writer, Table $_this = null) {
-                    if ($_this->getConfig(DRIConfiguration::class)->getValue()) {
-                        $_this->writeDependencies($writer);
-                    }
-                })
-                ->writeCallback(function(WriterInterface $writer, Table $_this = null) {
-                    $_this->writeReferences($writer);
-                })
+                    ->writeComment('@var string')
+                    ->write('protected $_schema = \''. $this->getSchema()->getName() .'\';')
+                    ->write('')
+                    ->writeComment('@var string')
+                    ->write('protected $_name = \''. $this->getRawTableName() .'\';')
+                    ->write('')
+                    ->writeCallback(function(WriterInterface $writer, Table $_this = null) {
+                        if ($_this->getConfig(DRIConfiguration::class)->getValue()) {
+                            $_this->writeDependencies($writer);
+                        }
+                    })
+                    ->writeCallback(function(WriterInterface $writer, Table $_this = null) {
+                        $_this->writeReferences($writer);
+                    })
                 ->outdent()
                 ->write('}')
                 ->write('')
@@ -114,11 +111,11 @@ class Table extends BaseTable
     {
         //TODO: [Zend] Find a way to print dependance without change the core.
         $writer
-            ->write('/**')
-            ->write(' * TODO: this feature isn\'t implement yet')
-            ->write(' *')
-            ->write(' * @var array')
-            ->write(' */')
+            ->commentStart()
+                ->write('@todo: this feature isn\'t implement yet')
+                ->write('')
+                ->write('@var array')
+            ->commentEnd()
             ->write('protected $_dependentTables = [];')
             ->write('')
         ;
@@ -129,9 +126,9 @@ class Table extends BaseTable
     public function writeReferences(WriterInterface $writer)
     {
         $writer
-            ->write('/**')
-            ->write(' * @var array')
-            ->write(' */')
+            ->commentStart()
+                ->write('@var array')
+            ->commentEnd()
             ->writeCallback(function(WriterInterface $writer, Table $_this = null) {
                 if (count($_this->getForeignKeys())) {
                     $writer->write('protected $_referenceMap = [');
