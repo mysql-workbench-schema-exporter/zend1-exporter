@@ -65,18 +65,14 @@ class Table extends BaseTable
                     $header = $this->getConfig(HeaderConfiguration::class);
                     if ($content = $header->getHeader()) {
                         $writer
-                            ->commentStart()
-                                ->write($content)
-                            ->commentEnd()
+                            ->writeComment($content)
                             ->write('')
                         ;
                     }
                     if ($_this->getConfig(CommentConfiguration::class)->getValue()) {
                         if ($content = $_this->getFormatter()->getComment(null)) {
                             $writer
-                                ->commentStart()
-                                    ->write($content)
-                                ->commentEnd()
+                                ->writeComment($content)
                                 ->write('')
                             ;
                         }
@@ -85,14 +81,10 @@ class Table extends BaseTable
                 ->write('class '.$this->getTablePrefix().$this->getSchema()->getName().'_'. $this->getModelName().' extends '.$this->getParentTable())
                 ->write('{')
                 ->indent()
-                    ->commentStart()
-                        ->write('@var string')
-                    ->commentEnd()
+                    ->writeComment('@var string')
                     ->write('protected $_schema = \''. $this->getSchema()->getName() .'\';')
                     ->write('')
-                    ->commentStart()
-                        ->write('@var string')
-                    ->commentEnd()
+                    ->writeComment('@var string')
                     ->write('protected $_name = \''. $this->getRawTableName() .'\';')
                     ->write('')
                     ->writeCallback(function(WriterInterface $writer, Table $_this = null) {
