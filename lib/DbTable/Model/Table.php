@@ -60,7 +60,7 @@ class Table extends BaseTable
                 ->open($this->getTableFileName())
                 ->write('<?php')
                 ->write('')
-                ->writeCallback(function(WriterInterface $writer, Table $_this = null) {
+                ->writeCallback(function(WriterInterface $writer, ?Table $_this = null) {
                     /** @var \MwbExporter\Configuration\Header $header */
                     $header = $this->getConfig(HeaderConfiguration::class);
                     if ($content = $header->getHeader()) {
@@ -87,12 +87,12 @@ class Table extends BaseTable
                     ->writeComment('@var string')
                     ->write('protected $_name = \''. $this->getRawTableName() .'\';')
                     ->write('')
-                    ->writeCallback(function(WriterInterface $writer, Table $_this = null) {
+                    ->writeCallback(function(WriterInterface $writer, ?Table $_this = null) {
                         if ($_this->getConfig(DRIConfiguration::class)->getValue()) {
                             $_this->writeDependencies($writer);
                         }
                     })
-                    ->writeCallback(function(WriterInterface $writer, Table $_this = null) {
+                    ->writeCallback(function(WriterInterface $writer, ?Table $_this = null) {
                         $_this->writeReferences($writer);
                     })
                 ->outdent()
@@ -129,7 +129,7 @@ class Table extends BaseTable
             ->commentStart()
                 ->write('@var array')
             ->commentEnd()
-            ->writeCallback(function(WriterInterface $writer, Table $_this = null) {
+            ->writeCallback(function(WriterInterface $writer, ?Table $_this = null) {
                 if (count($_this->getForeignKeys())) {
                     $writer->write('protected $_referenceMap = [');
                     $writer->indent();
